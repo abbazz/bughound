@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.8.4
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Mar 14, 2019 at 08:04 AM
+- Server version: 10.1.37-MariaDB
+- PHP Version: 7.3.1
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="bughound" collation="latin1_swedish_ci" charset="latin1">
+            <pma:table name="areas">
+                CREATE TABLE `areas` (
+                  `bug_id` int(11) DEFAULT NULL,
+                  `funct_area` varchar(20) DEFAULT NULL,
+                  `assigned_to` varchar(20) DEFAULT NULL,
+                  `comments` varchar(150) DEFAULT NULL,
+                  `priority` varchar(20) DEFAULT NULL,
+                  `resolution` varchar(20) DEFAULT NULL,
+                  `resolution_version` varchar(20) DEFAULT NULL,
+                  KEY `bug_id` (`bug_id`),
+                  CONSTRAINT `areas_ibfk_1` FOREIGN KEY (`bug_id`) REFERENCES `bugs` (`bug_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="attachments">
+                CREATE TABLE `attachments` (
+                  `attch_id` int(12) NOT NULL,
+                  `bug_id` int(12) NOT NULL,
+                  `file_name` varchar(200) NOT NULL,
+                  PRIMARY KEY (`attch_id`),
+                  KEY `bug_id` (`bug_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="bugs">
+                CREATE TABLE `bugs` (
+                  `bug_id` int(5) NOT NULL AUTO_INCREMENT,
+                  `program_type` varchar(25) NOT NULL,
+                  `report_type` varchar(20) DEFAULT NULL,
+                  `severity` varchar(20) DEFAULT NULL,
+                  `prob_summary` varchar(100) NOT NULL,
+                  `problem` varchar(300) NOT NULL,
+                  `suggest_fix` varchar(250) NOT NULL,
+                  `reported_by` varchar(32) NOT NULL,
+                  `report_date` date NOT NULL,
+                  `status` varchar(12) NOT NULL,
+                  `resolved_by` varchar(32) NOT NULL,
+                  `resolve_date` date NOT NULL,
+                  `tested_by` varchar(32) NOT NULL,
+                  `tested_date` date NOT NULL,
+                  `funct_area` varchar(30) DEFAULT NULL,
+                  `assigned_to` varchar(30) DEFAULT NULL,
+                  `comments` varchar(250) DEFAULT NULL,
+                  `priority` varchar(15) DEFAULT NULL,
+                  `resolution` varchar(30) DEFAULT NULL,
+                  `resolution_version` int(30) DEFAULT NULL,
+                  PRIMARY KEY (`bug_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="employees">
+                CREATE TABLE `employees` (
+                  `emp_id` int(12) NOT NULL AUTO_INCREMENT,
+                  `emp_name` varchar(32) NOT NULL,
+                  `username` varchar(30) DEFAULT NULL,
+                  `password` varchar(50) DEFAULT NULL,
+                  `userlevel` int(20) DEFAULT NULL,
+                  PRIMARY KEY (`emp_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="programs">
+                CREATE TABLE `programs` (
+                  `program_id` int(10) NOT NULL,
+                  `program_name` varchar(30) NOT NULL,
+                  `version` int(5) NOT NULL,
+                  `prog_release` varchar(10) NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'bughound'
+    -->
+    <database name="bughound">
+        <!-- Table areas -->
+        <!-- Table attachments -->
+        <!-- Table bugs -->
+        <table name="bugs">
+            <column name="bug_id">2</column>
+            <column name="program_type">COBOL</column>
+            <column name="report_type">Design Issue</column>
+            <column name="severity">Minor</column>
+            <column name="prob_summary">no</column>
+            <column name="problem">yes</column>
+            <column name="suggest_fix">dnnds</column>
+            <column name="reported_by">yash</column>
+            <column name="report_date">2019-01-25</column>
+            <column name="status">Closed/Open</column>
+            <column name="resolved_by">abbas</column>
+            <column name="resolve_date">2019-01-26</column>
+            <column name="tested_by">abbas</column>
+            <column name="tested_date">2019-01-26</column>
+            <column name="funct_area">Design</column>
+            <column name="assigned_to">abbas</column>
+            <column name="comments">smsa</column>
+            <column name="priority">Fix As Soon As </column>
+            <column name="resolution">Fixed</column>
+            <column name="resolution_version">0</column>
+        </table>
+        <table name="bugs">
+            <column name="bug_id">3</column>
+            <column name="program_type">python</column>
+            <column name="report_type">Coding Error</column>
+            <column name="severity">Fatal</column>
+            <column name="prob_summary">this is a program</column>
+            <column name="problem">asdasdasdasd</column>
+            <column name="suggest_fix">asdasdassd</column>
+            <column name="reported_by">abbas</column>
+            <column name="report_date">2019-03-05</column>
+            <column name="status">Open</column>
+            <column name="resolved_by">yash</column>
+            <column name="resolve_date">2019-03-17</column>
+            <column name="tested_by">abbas</column>
+            <column name="tested_date">2019-03-19</column>
+            <column name="funct_area">Development</column>
+            <column name="assigned_to">abbas</column>
+            <column name="comments">asdasdasd</column>
+            <column name="priority">Fix Immediately</column>
+            <column name="resolution">Fixed</column>
+            <column name="resolution_version">0</column>
+        </table>
+        <!-- Table employees -->
+        <table name="employees">
+            <column name="emp_id">1</column>
+            <column name="emp_name">yash</column>
+            <column name="username">yash</column>
+            <column name="password">123</column>
+            <column name="userlevel">3</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">2</column>
+            <column name="emp_name">abbas</column>
+            <column name="username">abbas</column>
+            <column name="password">123</column>
+            <column name="userlevel">1</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">3</column>
+            <column name="emp_name">srikanth</column>
+            <column name="username">srik</column>
+            <column name="password">123</column>
+            <column name="userlevel">1</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">6</column>
+            <column name="emp_name">jon</column>
+            <column name="username">jay</column>
+            <column name="password">123</column>
+            <column name="userlevel">2</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">7</column>
+            <column name="emp_name">tushar</column>
+            <column name="username">tush</column>
+            <column name="password">123</column>
+            <column name="userlevel">3</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">8</column>
+            <column name="emp_name">subbu</column>
+            <column name="username">sub</column>
+            <column name="password">123</column>
+            <column name="userlevel">1</column>
+        </table>
+        <table name="employees">
+            <column name="emp_id">9</column>
+            <column name="emp_name">sai</column>
+            <column name="username">asd</column>
+            <column name="password">asd</column>
+            <column name="userlevel">1</column>
+        </table>
+        <!-- Table programs -->
+        <table name="programs">
+            <column name="program_id">0</column>
+            <column name="program_name">COBOL</column>
+            <column name="version">1</column>
+            <column name="prog_release">alpha</column>
+        </table>
+        <table name="programs">
+            <column name="program_id">0</column>
+            <column name="program_name">python</column>
+            <column name="version">1</column>
+            <column name="prog_release">beta</column>
+        </table>
+        <table name="programs">
+            <column name="program_id">0</column>
+            <column name="program_name">c++</column>
+            <column name="version">2</column>
+            <column name="prog_release">alpha</column>
+        </table>
+        <table name="programs">
+            <column name="program_id">0</column>
+            <column name="program_name">c</column>
+            <column name="version">5</column>
+            <column name="prog_release">gama</column>
+        </table>
+    </database>
+</pma_xml_export>

@@ -1,0 +1,5 @@
+2,COBOL,Design Issue,Minor,no,yes,dnnds,yash,2019-01-25,Closed/Open,abbas,2019-01-26,abbas,2019-01-26,Design,abbas,smsa,Fix As Soon As ,Fixed,0
+3,python,Coding Error,Fatal,this is a program,asdasdasdasd,asdasdassd,abbas,2019-03-05,Open,yash,2019-03-17,abbas,2019-03-19,Development,abbas,asdasdasd,Fix Immediately,Fixed,0
+7,COBOL,,,,,,yash,0000-00-00,,,0000-00-00,,0000-00-00,,,,,,0
+8,python,,,,,,yash,0000-00-00,,,0000-00-00,,0000-00-00,,,,,,0
+9,COBOL,,,,,,yash,0000-00-00,,,0000-00-00,,0000-00-00,,,,,,0

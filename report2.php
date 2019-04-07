@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<?php
+   include('session.php'); 
+ ?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
+        <title>Bughound</title>
+		<style>
+		.error {color: #FF0000;}
+		</style>
+		<script language=Javascript>
+            function go_home(){
+                window.location.replace("welcome.php");
+            }
+        </script>
+    </head>
+
+
+<body class = "centered-wrapper" bgcolor= "#FFD700">
+<?php
+$progErr = $repErr = $sevErr = $probErr = "";
+$program_type = $report_type = $severity = $comment = "";
+$sug_fix = $reported_by = $rep_date = $func_area = $ass_emp = "";
+$comments = $status = $priority = $resol = $resol_ver = "";
+$resolved_by = $res_date = $tested_by = $test_date = $prob_summary = $problem = "";
+$con=mysqli_connect("localhost","root");
+mysqli_select_db($con, "bughound");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+	  if (empty($_POST["prog_type"]) && empty($_POST["rep_type"]) && empty($_POST["seve"])) {
+		$progErr = "program is required";
+		$repErr = "report is required";
+		$sevErr = "Severity is required";
+	  }
+	  else{
+		  $program_type= test_input($_POST["prog_type"]);
+		  $report_type= test_input($_POST["rep_type"]);
+		  $severity= test_input($_POST["seve"]);
+		  if((empty($_POST["probsum"]) && !empty($_POST["prob"])) ||(empty($_POST["prob"]) && !empty($_POST["probsum"])) || (empty($_POST["prob"]) && !empty($_POST["probsum"]))){
+		  
+			$probErr = "Both of these fields are required";
+
+		  }
+		  else{
+				    $prob_summary= test_input($_POST["probsum"]);
+				    $problem= test_input($_POST["prob"]);
+					$sug_fix=test_input($_POST['sug_fix']);
+					$reported_by=test_input($_POST['rep_emp']);
+					$rep_date=test_input($_POST['rep_date']);
+					$func_area=test_input($_POST['func_area']);
+					$ass_emp=test_input($_POST['ass_emp']);
+					$comments=test_input($_POST['comments']);
+					$status=test_input($_POST['status']);
+					$priority=test_input($_POST['priority']);
+					$resol=test_input($_POST['resol']);
+					$resol_ver=test_input($_POST['resol_ver']);
+					$resolved_by=test_input($_POST['res_emp']);
+					$res_date=test_input($_POST['res_date']);
+					$tested_by=test_input($_POST['test_emp']);
+					$test_date=test_input($_POST['test_date']);
+					$query1 = "INSERT INTO bugs (program_type, report_type, severity, prob_summary, problem, suggest_fix, reported_by, report_date, status, resolved_by, resolve_date, tested_by, tested_date, funct_area, assigned_to, comments, priority, resolution, resolution_version) VALUES ('$program_type','$report_type','$severity','$prob_summary','$problem','$sug_fix','$reported_by', '$rep_date', '$status', '$resolved_by', '$res_date', '$tested_by', '$test_date','$func_area','$ass_emp','$comments','$priority', '$resol', '$resol_ver');";
+				
+				mysqli_query($con, $query1);
+				mysqli_close($con);
+		  }
+	  }
+}
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+?>
+	<h1 class="centered-content"> New Bug Report Entry Page </h1>
+	<br><br>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method = "post">
+	<p>
+		Program: <select name="prog_type">
+		<option disabled selected value> -- select an option -- </option>
+		<?php
+		$con = mysqli_connect("localhost","root");
+				mysqli_select_db($con, "bughound");
+		$sql= mysqli_query($con,"SELECT program_name from programs");
+		while ($row = $sql->fetch_assoc()){
+		echo "<option>" . $row['program_name'] . "</option>";
+		}
+		?>
+		</select>
+				<span class="error">* <?php echo $progErr;?></span>
+		Report Type: <select name="rep_type">
+		<option disabled selected value> -- select an option -- </option>
+				<option value="Coding Error">Coding Error</option>
+				<option value="Design Issue">Design Issue</option>
+				<option value="Suggestion">Suggestion</option>
+				<option value="Documentation">Documentation</option>
+				<option value="Hardware">Hardware</option>
+				<option value="query">Query</option>
+				</select>
+				<span class="error">* <?php echo $repErr;?></span>
+		Severity: <select name="seve">
+		<option disabled selected value> -- select an option -- </option>
+				<option value="Minor">Minor</option>
+				<option value="Major">Intermediate</option>
+				<option value="Fatal">Serious</option>
+				</select>
+				<span class="error">* <?php echo $sevErr;?></span>
+		</p>
+		<p>Problem Summary: <textarea name="probsum" rows="1" cols="50" placeholder= "Write A Brief Summary Of The Problem"></textarea>
+		Reproducible? <input type="checkbox" name="repro">
+		</p>
+		<p>Problem: <textarea name="prob" rows="3" cols="80" placeholder= "State The Problem"></textarea>
+		<span class="error">* <?php echo $probErr;?></span> </p>
+		<p> Suggested Fix: <textarea name="sug_fix" rows="3" cols="75" > </textarea> </p>
+		<p> Reported By: <select name="rep_emp">
+		<?php
+		$con = mysqli_connect("localhost","root");
+				mysqli_select_db($con, "bughound");
+		$sql= mysqli_query($con,"SELECT emp_name from employees");
+		while ($row = $sql->fetch_assoc()){
+		echo "<option>" . $row['emp_name'] . "</option>";
+		}
+		?>
+		</select>
+		Date: <input name="rep_date" type="date">
+		</p>
+		<hr>
+		<p>
+		Functional Area: <select name="func_area">
+		<option disabled selected value> -- select an option -- </option>
+				<option value="Design">Design</option>
+				<option value="Development">Development</option>
+				<option value="Testing">Testing</option>
+				</select>
+		Assigned To: <select name="ass_emp">
+		<option disabled selected value> -- select an option -- </option>
+		<?php
+		$con = mysqli_connect("localhost","root");
+				mysqli_select_db($con, "bughound");
+		$sql= mysqli_query($con,"SELECT emp_name from employees");
+		while ($row = $sql->fetch_assoc()){
+		echo "<option>" . $row['emp_name'] . "</option>";
+		}
+		?>
+		</select>
+		</p>
+		<p> Comments: <textarea name="comments" rows="3" cols="75" placeholder= "State any comments"></textarea> </p>
+		<p>
+		Status <select name="status">
+		<option disabled selected value> -- select an option -- </option>
+			<option value="Open">Open</option>
+			<option value="Closed/Open">Closed/Open</option>
+			<option value="Closed">Closed</option>
+			<option value="Resolved">Open</option>
+		</select>
+		Priority <select name="priority">
+		<option disabled selected value> -- select an option -- </option>
+			<option value="Fix Immediately">Fix Immediately</option>
+			<option value="Fix As Soon As Possible">Fix As Soon As Possible</option>
+			<option value="Fix Before Next Milestone">Fix Before Next Milestone</option>
+			<option value="Fix Before Release">Fix Before Release</option>
+			<option value="Fix If Possible">Fix If Possible</option>
+			<option value="Optional">Optional</option>
+		</select>
+		Resolution <select name="resol">
+		<option disabled selected value> -- select an option -- </option>
+			<option value="Pending">Pending</option>
+			<option value="Fixed">Fixed</option>
+			<option value="Irreproducible">Irreproducible</option>
+			<option value="Deferred">Deferred</option>
+			<option value="As Designed">As Designed</option>
+			<option value="Withdrawn By Reporter">Withdrawn By Reporter</option>
+			<option value="Need More Info">Need More Info</option>
+			<option value="Disagree With Suggestion">Disagree With Suggestion</option>
+			<option value="Duplicate">Duplicate</option>
+		</select>
+		Resolution Version <select name="resol_ver">
+		<option disabled selected value> -- select an option -- </option>
+			<option value="Pending">Pending</option>
+			<option value="Fixed">Fixed</option>
+			<option value="Irreproducible">Irreproducible</option>
+			<option value="Deferred">Deferred</option>
+			<option value="As Designed">As Designed</option>
+			<option value="Withdrawn By Reporter">Withdrawn By Reporter</option>
+			<option value="Need More Info">Need More Info</option>
+			<option value="Disagree With Suggestion">Disagree With Suggestion</option>
+			<option value="Duplicate">Duplicate</option>
+		</select>
+		</p>
+		<p>
+		Resolved By: <select name="res_emp">
+		<option disabled selected value> -- select an option -- </option>
+		<?php
+		$con = mysqli_connect("localhost","root");
+				mysqli_select_db($con, "bughound");
+		$sql= mysqli_query($con,"SELECT emp_name from employees");
+		while ($row = $sql->fetch_assoc()){
+		echo "<option>" . $row['emp_name'] . "</option>";
+		}
+		?>
+		</select>
+		Date: <input name="res_date" type="date">
+		Tested By: <select name="test_emp">
+		<option disabled selected value> -- select an option -- </option>
+		<?php
+		$con = mysqli_connect("localhost","root");
+				mysqli_select_db($con, "bughound");
+		$sql= mysqli_query($con,"SELECT emp_name from employees");
+		while ($row = $sql->fetch_assoc()){
+		echo "<option>" . $row['emp_name'] . "</option>";
+		}
+		?>
+		</select>
+		Date: <input name="test_date" type="date">
+		Treat as Deferred? <input type="checkbox" name="defer"></input>
+		</p>
+		<input type="submit" value="submit"></input> <input type="reset" value="reset"></input> <input type="button" value="cancel" onclick="go_home()"></input>
+	</form>
+	</body>
+</html>
